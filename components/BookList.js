@@ -9,6 +9,7 @@ import {
   Dimensions,
   TouchableOpacity
 } from 'react-native';
+import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
 import * as BooksAPI from "../BooksAPI";
 
 const ITEM_WIDTH = (Dimensions.get('window').width)/3;
@@ -29,7 +30,7 @@ export default class BookList extends Component {
   };
 
   handleBookItemPress(id, event) {
-    this.props.OpenBookInfo(id);
+    this.props.openbookinfo(id);
     this.setState({
       bookSelected:id
     });
@@ -41,7 +42,6 @@ export default class BookList extends Component {
 
   shouldComponentUpdate(nextProps) {
     if (this.props.bookSearch != nextProps.bookSearch) {
-      // console.log(`nextProps=${nextProps.bookSearch}`);
       this.setState({
         bookSearch: nextProps.bookSearch
       })
@@ -51,7 +51,7 @@ export default class BookList extends Component {
   }
 
   getBooksOnList(query="") {
-    // console.log(`query=${query}`)
+
     BooksAPI.getBooks(query).then(result => {
       this.setState({
         loading: true
@@ -71,7 +71,6 @@ export default class BookList extends Component {
         books: booksKeys,
         loading: false
       });
-      // console.log(booksKeys);
     });
   }
 
@@ -106,12 +105,14 @@ const styles = StyleSheet.create({
   item: {
     paddingTop: 10,
     paddingBottom: 10,
-    width: ITEM_WIDTH,
+    width: wp('33.3%'),
     alignItems: 'center',
+    overflow:'hidden'
   },
   item_image: {
-    width: 128,
-    height: 194,
+    width: wp('30%'),
+    height: hp('28%'),
+    resizeMode:"contain"
   }
 });
 
